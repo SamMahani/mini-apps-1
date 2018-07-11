@@ -14,6 +14,8 @@
           //[OPTIONAL]center textField class in center of page
           //[OPTIONAL] use terralax
     //load listener
+//------------------------------------------------------------------------------------------------------------------------
+
 const converter = require('../db/convertJSON');
 const path = require('path');
 const express = require('express');
@@ -28,12 +30,19 @@ app.all('*', (req, res, next) => {
 app.use('*', express.static(path.join(__dirname, '../client/public')));
 app.use(bodyParser.json());
 
+// app.get('*', (req, res) => {
+//       res.status(200).send();
+// });
+
 app.post('*', (req, res) => {
-  var csv = converter(req.body);
-  res.status(200).send(csv);
+  converter(req.body, (err, data) => {
+    if(err) {
+      res.status(400).send('Error: Improper Syntax', err);
+      return;
+    }
+    res.status(200).send(data);
+  });
 });
-
-
 
 //TODO update this to callback to database, must handle incoming req data
 // app.get('/JSON', (req, res) => 'WELCOME');
