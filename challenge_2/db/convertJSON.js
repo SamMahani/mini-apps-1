@@ -22,13 +22,15 @@
 //create converter
 //export
 
-const JSONtoCSVconverter = (input, callback) => {
+const JSONtoCSV = (input, callback) => {
   //input JSON file
   //output will be a string with \n appended
   var resObj = {};
   var resStr = "";
+  var count = 0;
 
   const recurse = (input) => {
+    count++;
     for (var key in input) {
       if(!resObj[key] && key !== "children") {
         resObj[key] = [input[key]];
@@ -41,63 +43,71 @@ const JSONtoCSVconverter = (input, callback) => {
   }
   recurse(input);
 
-  //get and join the keys first, concat to res with \n
-  //for loop
-    //recurse over each key and take in i'th argument of arr into str
-    // join and add to resString
+  //create output string
+  let header = Object.keys(resObj).join(", ");
+  resStr += `${header}\n`;
 
-  resStr.concat((Object.keys(resObj).join(', '),'\n')
-  // console.log(resObj);
-  // console.log(resStr);
+  for(var i = 0; i < count; i++) {
+    var tempArr = [];
+    for (var key in resObj) {
+      tempArr.push(resObj[key][i]);
+    }
+    resStr += `${tempArr.join(", ")}\n`;
+  }
+
+  //TODO USE CALLBACK TO PASS DATA
+  return resStr;
 }
 
+module.exports = JSONtoCSV;
 
-
-var salesReport = {
-    "firstName": "Joshie",
-    "lastName": "Wyattson",
-    "county": "San Mateo",
-    "city": "San Mateo",
-    "role": "Broker",
-    "sales": 1000000,
-    "children": [
-    {
-      "firstName": "Beth Jr.",
-      "lastName": "Johnson",
-      "county": "San Mateo",
-      "city": "Pacifica",
-      "role": "Manager",
-      "sales": 2900000,
-      "children": [
-        {
-          "firstName": "Smitty",
-          "lastName": "Won",
-          "county": "San Mateo",
-          "city": "Redwood City",
-          "role": "Sales Person",
-          "sales": 4800000,
-          "children": []
-        },
-        {
-          "firstName": "Allen",
-          "lastName": "Price",
-          "county": "San Mateo",
-          "city": "Burlingame",
-          "role": "Sales Person",
-          "sales": 2500000,
-          "children": []
-        }
-      ]
-    },
-    {
-      "firstName": "Beth",
-      "lastName": "Johnson",
-      "county": "San Francisco",
-      "city": "San Francisco",
-      "role": "Broker/Sales Person",
-      "sales": 7500000,
-      "children": []
-    }
-  ]
-};
-JSONtoCSVconverter(salesReport);
+//TESTER BELOW
+//DELETE
+// var salesReport = {
+//     "firstName": "Joshie",
+//     "lastName": "Wyattson",
+//     "county": "San Mateo",
+//     "city": "San Mateo",
+//     "role": "Broker",
+//     "sales": 1000000,
+//     "children": [
+//     {
+//       "firstName": "Beth Jr.",
+//       "lastName": "Johnson",
+//       "county": "San Mateo",
+//       "city": "Pacifica",
+//       "role": "Manager",
+//       "sales": 2900000,
+//       "children": [
+//         {
+//           "firstName": "Smitty",
+//           "lastName": "Won",
+//           "county": "San Mateo",
+//           "city": "Redwood City",
+//           "role": "Sales Person",
+//           "sales": 4800000,
+//           "children": []
+//         },
+//         {
+//           "firstName": "Allen",
+//           "lastName": "Price",
+//           "county": "San Mateo",
+//           "city": "Burlingame",
+//           "role": "Sales Person",
+//           "sales": 2500000,
+//           "children": []
+//         }
+//       ]
+//     },
+//     {
+//       "firstName": "Beth",
+//       "lastName": "Johnson",
+//       "county": "San Francisco",
+//       "city": "San Francisco",
+//       "role": "Broker/Sales Person",
+//       "sales": 7500000,
+//       "children": []
+//     }
+//   ]
+// };
+// JSONtoCSVconverter(salesReport);

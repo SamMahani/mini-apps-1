@@ -14,9 +14,10 @@
           //[OPTIONAL]center textField class in center of page
           //[OPTIONAL] use terralax
     //load listener
-
+const converter = require('../db/convertJSON');
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 
 app.all('*', (req, res, next) => {
@@ -24,10 +25,20 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, '../client/public')));
+app.use('*', express.static(path.join(__dirname, '../client/public')));
+app.use(bodyParser.json());
+
+app.post('/JSON', (req, res) => {
+  var csv = converter(req.body);
+  res.status(200).send(csv);
+});
+
+
 
 //TODO update this to callback to database, must handle incoming req data
-app.get('/JSON', (req, res) => 'LOADING FROM SERVER');
+// app.get('/JSON', (req, res) => 'WELCOME');
+// app.post('/JSON', (req, res) => 'POSTING');
 
 app.listen(3000, () => console.log('Listening to 3000'));
 
+//export?
