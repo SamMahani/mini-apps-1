@@ -28,7 +28,7 @@ app.all('*', (req, res, next) => {
 app.use('*', express.static(path.join(__dirname, '../client/public')));
 app.use(bodyParser.json());
 
-app.post('/JSON', (req, res) => {
+app.post('*', (req, res) => {
   var csv = converter(req.body);
   res.status(200).send(csv);
 });
