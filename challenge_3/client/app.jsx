@@ -1,13 +1,3 @@
-//require react
-//require reactDOM
-//require
+const App = () => <div>loading react</div>;
 
-
-//build app here
-//render
-
-//F1
-//F2
-//F3
-
-//export
+ReactDOM.render(<App />, document.getElementById('app'));
