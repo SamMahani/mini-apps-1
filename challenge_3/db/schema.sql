@@ -3,7 +3,7 @@ USE users;
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE user(
-  id INT SNOT NULL AUTO_INCREMENT,
+  id INT NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(30),
   user_email VARCHAR(30),
   user_pass VARCHAR(30),
